@@ -1,0 +1,254 @@
+        :root {
+            --azul-header: #1C8FCC;
+            --azul-header-oscuro: #146B9E;
+            --azul-oscuro: #0d1b2a;
+            --verde-menta: #4DD9A8;
+            --blanco: #FFFFFF;
+            --gris-texto: #6b7280;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            height: 100%;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        .login-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ---------- Panel izquierdo (marca) ---------- */
+        .login-marca {
+            flex: 1 1 50%;
+            background-color: var(--azul-header);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .login-marca__circulo {
+            position: absolute;
+            border-radius: 50%;
+            background-color: var(--azul-header-oscuro);
+        }
+        /* Círculo tipo "anillo" arriba a la izquierda: aro oscuro con el centro
+           del mismo color que el fondo, para que se vea hueco */
+        .login-marca__circulo--anillo {
+            width: 210px;
+            height: 210px;
+            top: -70px;
+            left: -70px;
+        }
+        .login-marca__circulo--anillo::after {
+            content: "";
+            position: absolute;
+            inset: 32px;
+            border-radius: 50%;
+            background-color: var(--azul-header);
+        }
+        .login-marca__circulo--2 { width: 110px; height: 110px; top: -55px;  left: 300px; }
+        .login-marca__circulo--3 { width: 280px; height: 280px; bottom: -150px; left: -110px; }
+        .login-marca__circulo--4 { width: 46px;  height: 46px;  bottom: 130px; left: 95px; }
+
+        .login-marca__contenido {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            max-width: 420px;
+        }
+
+        .login-marca__logo {
+            width: 90px;
+            height: 90px;
+            flex-shrink: 0;
+            object-fit: contain;
+        }
+
+        .login-marca__divisor {
+            width: 2px;
+            align-self: stretch;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .login-marca__texto h1 {
+            color: var(--blanco);
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin: 0 0 8px;
+        }
+
+        .login-marca__texto p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        /* ---------- Panel derecho (formulario) ---------- */
+        .login-formulario {
+            flex: 1 1 50%;
+            background-color: var(--blanco);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .login-formulario__circulo {
+            position: absolute;
+            top: -80px;
+            right: -60px;
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            background-color: var(--azul-header-oscuro);
+        }
+
+        .login-formulario__card {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 380px;
+        }
+
+        .login-formulario__card h2 {
+            color: var(--azul-oscuro);
+            font-size: 1.7rem;
+            font-weight: 800;
+            margin: 0 0 6px;
+        }
+
+        .login-formulario__card > p {
+            color: var(--gris-texto);
+            font-size: 0.95rem;
+            margin: 0 0 28px;
+            line-height: 1.4;
+        }
+
+        .login-error {
+            background-color: #fdecea;
+            border: 1px solid #e74c3c;
+            color: #c0392b;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .login-campo {
+            margin-bottom: 20px;
+        }
+
+        .login-campo label {
+            display: block;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--azul-oscuro);
+            margin-bottom: 8px;
+        }
+
+        .login-campo input {
+            width: 100%;
+            padding: 14px 16px;
+            border: none;
+            border-radius: 10px;
+            background-color: #e4e4e4;
+            font-size: 0.95rem;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        .login-campo input:focus {
+            outline: 2px solid var(--azul-header);
+            outline-offset: 1px;
+            background-color: #f0f0f0;
+        }
+
+        .login-campo--password {
+            position: relative;
+        }
+
+        .login-campo--password input {
+            padding-right: 46px;
+        }
+
+        .login-toggle-clave {
+            position: absolute;
+            right: 12px;
+            top: 41px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+        }
+        .login-toggle-clave:hover {
+            color: var(--azul-header-oscuro);
+        }
+        .login-toggle-clave svg {
+            display: block;
+        }
+        .login-toggle-clave .icono-ojo-cerrado {
+            display: none;
+        }
+        .login-toggle-clave.activo .icono-ojo-abierto {
+            display: none;
+        }
+        .login-toggle-clave.activo .icono-ojo-cerrado {
+            display: block;
+        }
+
+        .btn-ingresar {
+            width: 100%;
+            background-color: var(--azul-oscuro);
+            color: var(--blanco);
+            border: none;
+            border-radius: 10px;
+            padding: 16px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        .btn-ingresar:hover {
+            background-color: #14283a;
+        }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 780px) {
+            .login-wrapper {
+                flex-direction: column;
+            }
+            .login-marca {
+                flex: 0 0 auto;
+                padding: 32px 24px;
+            }
+            .login-marca__logo {
+                width: 60px;
+                height: 60px;
+            }
+            .login-marca__texto h1 {
+                font-size: 1.7rem;
+            }
+            .login-formulario {
+                flex: 1 1 auto;
+                padding: 32px 24px;
+            }
+        }
