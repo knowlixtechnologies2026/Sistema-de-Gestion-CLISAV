@@ -1,0 +1,181 @@
+:root {
+    --azul-header: #1C8FCC;
+    --azul-header-oscuro: #146B9E;
+    --verde-menta: #4DD9A8;
+    --blanco: #FFFFFF;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Barra superior: logo + título + botón hamburguesa */
+.clisav-header {
+    background-color: var(--azul-header);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.clisav-header__marca {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 32px;
+    position: relative; /* ancla el menú desplegable */
+}
+
+.clisav-header__logo {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+}
+
+.clisav-header__logo path {
+    fill: var(--verde-menta);
+}
+
+.clisav-header__logo-ojo {
+    fill: var(--azul-header);
+}
+
+.clisav-header__titulo {
+    color: var(--blanco);
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    flex: 1; /* empuja el botón hamburguesa hacia la derecha */
+}
+
+/* Interruptor oculto (checkbox): controla todo por CSS, sin JS */
+.clisav-header__toggle-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+/* Botón hamburguesa (ahora es un <label>, no un <button>) */
+.clisav-header__hamburguesa {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 201; /* encima del overlay para poder cerrarlo también con el mismo botón */
+}
+
+.clisav-header__hamburguesa span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: var(--blanco);
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+/* Animación a "X" cuando el checkbox está marcado (menú abierto) */
+.clisav-header__toggle-input:checked ~ .clisav-header__hamburguesa span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.clisav-header__toggle-input:checked ~ .clisav-header__hamburguesa span:nth-child(2) {
+    opacity: 0;
+}
+
+.clisav-header__toggle-input:checked ~ .clisav-header__hamburguesa span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Menú desplegable */
+.clisav-header__menu {
+    background-color: var(--azul-header-oscuro);
+    position: absolute;
+    top: 100%;
+    right: 32px;
+    min-width: 210px;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease;
+    z-index: 200;
+}
+
+.clisav-header__toggle-input:checked ~ .clisav-header__menu {
+    max-height: 260px;
+}
+
+/* Overlay invisible: cubre toda la pantalla solo cuando el menú está abierto,
+   y al hacer clic en cualquier parte de él (fuera del menú), desmarca el
+   checkbox porque también es "label" del mismo interruptor */
+.clisav-header__overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    cursor: default;
+}
+
+.clisav-header__toggle-input:checked ~ .clisav-header__overlay {
+    display: block;
+}
+
+.clisav-header__menu ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+}
+
+.clisav-header__menu a {
+    display: block;
+    padding: 14px 20px;
+    color: var(--blanco);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    transition: background-color 0.2s ease;
+}
+
+.clisav-header__menu li:last-child a {
+    border-bottom: none;
+}
+
+.clisav-header__menu a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.clisav-header__menu a.clisav-header__cerrar-sesion {
+    color: #FFD0D0;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .clisav-header__marca {
+        padding: 14px 16px;
+    }
+
+    .clisav-header__titulo {
+        font-size: 1.3rem;
+    }
+
+    .clisav-header__menu {
+        right: 16px;
+        left: 16px;
+        min-width: unset;
+    }
+}
