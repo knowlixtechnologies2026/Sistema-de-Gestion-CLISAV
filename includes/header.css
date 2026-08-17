@@ -3,6 +3,8 @@
     --azul-header-oscuro: #146B9E;
     --verde-menta: #4DD9A8;
     --blanco: #FFFFFF;
+    --ambar-alerta: #FFB020;
+    --rojo-alerta: #FF5A5A;
 }
 
 * {
@@ -163,6 +165,99 @@ body {
     color: #FFD0D0;
 }
 
+/* Notificación de backup pendiente, justo debajo del header */
+.clisav-notificacion {
+    overflow: hidden;
+    max-height: 200px;
+    opacity: 1;
+    transition: max-height 0.3s ease, opacity 0.25s ease;
+}
+
+.clisav-notificacion__cerrar-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+/* Al marcar el checkbox de cierre, la notificación completa se colapsa */
+.clisav-notificacion:has(.clisav-notificacion__cerrar-input:checked) {
+    max-height: 0;
+    opacity: 0;
+}
+
+.clisav-notificacion--alerta .clisav-notificacion__contenido {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    background-color: #FFF6E5;
+    border-bottom: 3px solid var(--ambar-alerta);
+    padding: 14px 32px;
+}
+
+.clisav-notificacion__icono {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+}
+
+.clisav-notificacion__icono path {
+    fill: var(--ambar-alerta);
+}
+
+.clisav-notificacion__texto {
+    flex: 1;
+    min-width: 200px;
+    margin: 0;
+    color: #7A4B00;
+    font-size: 0.95rem;
+    line-height: 1.45;
+}
+
+.clisav-notificacion__texto strong {
+    color: #5C3900;
+}
+
+.clisav-notificacion__accion {
+    flex-shrink: 0;
+    background-color: var(--ambar-alerta);
+    color: #5C3900;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.clisav-notificacion__accion:hover {
+    background-color: #FFA500;
+    transform: translateY(-1px);
+}
+
+.clisav-notificacion__cerrar {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    color: #7A4B00;
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.clisav-notificacion__cerrar:hover {
+    background-color: rgba(122, 75, 0, 0.12);
+}
+
 /* Responsive */
 @media (max-width: 600px) {
     .clisav-header__marca {
@@ -177,5 +272,24 @@ body {
         right: 16px;
         left: 16px;
         min-width: unset;
+    }
+
+    .clisav-notificacion--alerta .clisav-notificacion__contenido {
+        padding: 12px 16px;
+    }
+
+    .clisav-notificacion__texto {
+        order: 2;
+        flex-basis: 100%;
+    }
+
+    .clisav-notificacion__accion {
+        order: 3;
+        flex-basis: 100%;
+    }
+
+    .clisav-notificacion__cerrar {
+        order: 1;
+        margin-left: auto;
     }
 }

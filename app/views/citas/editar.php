@@ -4,6 +4,18 @@ $hoy = date('Y-m-d');
 $esMedico = ($_SESSION['rol'] ?? '') === 'user';
 [$fechaActual, $horaActual] = explode(' ', $cita['fecha_hora']);
 $horaActual = substr($horaActual, 0, 5);
+
+$pacienteSeleccionado = null;
+foreach ($pacientes as $p) {
+    if ((string)$p['id_paciente'] === (string)$cita['id_paciente']) {
+        $pacienteSeleccionado = $p;
+        break;
+    }
+}
+
+$pacientesJs = array_map(function ($p) {
+    return ['id' => $p['id_paciente'], 'texto' => $p['nombres'] . ' ' . $p['apellidos']];
+}, $pacientes);
 ?>
 <style>
     .editar-main {
@@ -78,6 +90,7 @@ $horaActual = substr($horaActual, 0, 5);
     .campo select,
     .campo input[type="date"],
     .campo input[type="time"],
+    .campo input[type="text"],
     .campo textarea {
         width: 100%;
         padding: 10px 12px;
@@ -125,6 +138,53 @@ $horaActual = substr($horaActual, 0, 5);
     .btn-guardar:hover {
         background-color: #38c090;
     }
+
+    /* Buscador de paciente */
+    .campo-buscador {
+        position: relative;
+    }
+    .lista-sugerencias {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        border: 1px solid #ccc;
+        border-top: none;
+        border-radius: 0 0 6px 6px;
+        max-height: 220px;
+        overflow-y: auto;
+        z-index: 20;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    }
+    .lista-sugerencias li {
+        padding: 10px 12px;
+        cursor: pointer;
+        font-size: 14px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    .lista-sugerencias li:last-child {
+        border-bottom: none;
+    }
+    .lista-sugerencias li:hover {
+        background-color: #eaf6fd;
+    }
+    .lista-sugerencias li.sin-resultados {
+        cursor: default;
+        color: #999;
+    }
+    .lista-sugerencias li.sin-resultados:hover {
+        background-color: #ffffff;
+    }
+    .error-buscador {
+        color: #c0392b;
+        font-size: 13px;
+        font-weight: 600;
+        margin-top: 6px;
+    }
 </style>
 
 <main class="editar-main">
@@ -144,17 +204,17 @@ $horaActual = substr($horaActual, 0, 5);
         <div class="alerta-error"><?= htmlspecialchars($error) ?></div>
     <?php endif; ?>
 
-    <form method="POST" action="<?= BASE_URL ?>/citas/editar/<?= $cita['id_cita'] ?>" class="form-editar">
-        <div class="campo">
-            <label for="id_paciente">Paciente</label>
-            <select id="id_paciente" name="id_paciente" required>
-                <?php foreach ($pacientes as $p): ?>
-                    <option value="<?= $p['id_paciente'] ?>"
-                        <?= ($cita['id_paciente'] == $p['id_paciente']) ? 'selected' : '' ?>>
-                        <?= htmlspecialchars($p['nombres'] . ' ' . $p['apellidos']) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
+    <form method="POST" action="<?= BASE_URL ?>/citas/editar/<?= $cita['id_cita'] ?>" class="form-editar"
+          onsubmit="return validarBusquedaPaciente('id_paciente', 'error_paciente');">
+        <div class="campo campo-buscador">
+            <label for="buscar_paciente">Paciente</label>
+            <input type="text" id="buscar_paciente" autocomplete="off" required
+                   placeholder="Escribe el nombre del paciente"
+                   value="<?= htmlspecialchars($pacienteSeleccionado ? $pacienteSeleccionado['nombres'] . ' ' . $pacienteSeleccionado['apellidos'] : '') ?>">
+            <input type="hidden" id="id_paciente" name="id_paciente"
+                   value="<?= htmlspecialchars($pacienteSeleccionado['id_paciente'] ?? '') ?>">
+            <ul id="lista_paciente" class="lista-sugerencias" style="display:none;"></ul>
+            <p id="error_paciente" class="error-buscador" style="display:none;">Selecciona un paciente de la lista.</p>
         </div>
 
         <div class="campo">
@@ -211,3 +271,13 @@ $horaActual = substr($horaActual, 0, 5);
         <button type="submit" class="btn-guardar">Guardar cambios</button>
     </form>
 </main>
+
+<script src="<?= BASE_URL ?>/includes/buscadorPaciente.js"></script>
+<script>
+    initBuscadorPaciente({
+        pacientes: <?= json_encode($pacientesJs, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>,
+        inputTextoId: 'buscar_paciente',
+        inputOcultoId: 'id_paciente',
+        listaId: 'lista_paciente'
+    });
+</script>

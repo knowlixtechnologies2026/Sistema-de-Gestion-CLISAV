@@ -168,15 +168,15 @@ $nombres = $_SESSION['nombres'] ?? '';
                 ],
                 mediodia: [
                     "Buen mediodía", "Que tengas un buen provecho", "Ya casi es hora de almorzar",
-                    "Ya va tocando ir a comer no?", "A mitad del día,", "Sigamos con buen ánimo"
+                    "¿Ya va tocando ir a comer no?", "A mitad del día", "Sigamos con buen ánimo"
                 ],
                 tarde: [
                     "Buenas tardes", "Que sigas teniendo una buena tarde", "Espero que tu tarde vaya bien",
-                    "Que tal?", "Vamos a mitad de la tarde", "¿Trabajando duro o durando en el trabajo?"
+                    "¿Que tal?", "Vamos a mitad de la tarde", "¿Trabajando duro o durando en el trabajo?"
                 ],
                 noche: [
-                    "Buenas noches", "Que tengas una buena noche", "Trabajando hasta tarde,",
-                    "Un café?", "Muy buenas noches,", "Ya casi termina el día"
+                    "Buenas noches", "Que tengas una buena noche", "Trabajando hasta tarde",
+                    "¿Un café?", "Muy buenas noches", "Ya casi termina el día"
                 ]
             };
 
