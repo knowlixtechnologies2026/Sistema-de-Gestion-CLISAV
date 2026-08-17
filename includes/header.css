@@ -37,14 +37,7 @@ body {
     width: 42px;
     height: 42px;
     flex-shrink: 0;
-}
-
-.clisav-header__logo path {
-    fill: var(--verde-menta);
-}
-
-.clisav-header__logo-ojo {
-    fill: var(--azul-header);
+    object-fit: contain;
 }
 
 .clisav-header__titulo {
