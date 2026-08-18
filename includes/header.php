@@ -16,6 +16,7 @@ $esAdmin = ($_SESSION['rol'] ?? '') === 'owner';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CLISAV</title>
+    <link rel="icon" type="image/png" href="/images/logo2.png">
     <link rel="stylesheet" href="/includes/header.css?v=5">
 </head>
 <body>
